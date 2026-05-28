@@ -1,0 +1,29 @@
+{
+  "accountId": "3243773011",
+  "attributes": {},
+  "brandId": "1210",
+  "creationTime": "2026-05-28T09:04:25Z",
+  "direction": "Outbound",
+  "extensionId": "3243776011",
+  "from": {
+    "deviceId": "805169921011",
+    "extensionId": "3243776011",
+    "name": "Alan Hsu",
+    "phoneNumber": "+19513947346"
+  },
+  "id": "p-a786c5802de45z19e6dd3eba6z2b76e630000-1",
+  "muted": false,
+  "owner": {
+    "accountId": "3243773011",
+    "brandId": "1210",
+    "extensionId": "3243776011"
+  },
+  "standAlone": false,
+  "status": {
+    "code": "Disconnected",
+    "reason": "BlindTransfer"
+  },
+  "to": {
+    "phoneNumber": "+18338515503"
+  }
+}

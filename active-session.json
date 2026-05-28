@@ -1,0 +1,58 @@
+﻿{
+    "creationTime":  "2026-05-28T08:15:55Z",
+    "id":  "s-a786c42351558z19e6da78393z2bed4b50000",
+    "origin":  {
+                   "type":  "RingOut"
+               },
+    "parties":  [
+                    {
+                        "accountId":  "3243773011",
+                        "attributes":  {
+
+                                       },
+                        "brandId":  "1210",
+                        "creationTime":  "2026-05-28T08:15:55Z",
+                        "direction":  "Inbound",
+                        "extensionId":  "3243776011",
+                        "from":  {
+                                     "phoneNumber":  "+18338515503"
+                                 },
+                        "id":  "p-a786c42351558z19e6da78393z2bed4b50000-1",
+                        "muted":  false,
+                        "owner":  {
+                                      "accountId":  "3243773011",
+                                      "brandId":  "1210",
+                                      "extensionId":  "3243776011"
+                                  },
+                        "ringOutRole":  "Initiator",
+                        "standAlone":  false,
+                        "status":  {
+                                       "code":  "Answered"
+                                   },
+                        "to":  {
+                                   "phoneNumber":  "+19515822473"
+                               }
+                    },
+                    {
+                        "attributes":  {
+
+                                       },
+                        "creationTime":  "2026-05-28T08:15:55Z",
+                        "direction":  "Inbound",
+                        "from":  {
+                                     "name":  "DYNA AI",
+                                     "phoneNumber":  "+19515822473"
+                                 },
+                        "id":  "p-a786c42351558z19e6da78393z2bed4b50000-2",
+                        "muted":  false,
+                        "ringOutRole":  "Target",
+                        "standAlone":  false,
+                        "status":  {
+                                       "code":  "Answered"
+                                   },
+                        "to":  {
+                                   "phoneNumber":  "+18338515503"
+                               }
+                    }
+                ]
+}

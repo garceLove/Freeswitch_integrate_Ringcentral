@@ -1,0 +1,113 @@
+Test Record: 2026-05-28 17:06:00 UTC+8
+
+Goal
+----
+Run the full Alan Call Control flow:
+
+1. Alan calls number1.
+2. Wait 30 seconds.
+3. Transfer Alan's party to number2.
+4. Wait 30 seconds.
+5. Check existing sessions for zombie parties in report-only mode.
+
+Command
+-------
+python E:\Ringcentral\alan_call_transfer.py --wait-seconds 30; python E:\Ringcentral\avoid_zombie_sessions.py --wait-seconds 30
+
+Inputs
+------
+Alan deviceId: 805169921011
+number1: +18338515503
+number2: +19512681518
+wait before transfer: 30 seconds
+wait before zombie check: 30 seconds
+
+Call Creation
+-------------
+Access token received successfully.
+Alan device found successfully.
+
+Created Call Control call:
+
+telephonySessionId: s-a786c5802de45z19e6dd3eba6z2b76e630000
+Alan caller partyId: p-a786c5802de45z19e6dd3eba6z2b76e630000-1
+
+Saved call-out response:
+E:\Ringcentral\call-out-result.json
+
+Transfer
+--------
+Transfer request sent after 30 seconds.
+
+Transfer result:
+
+partyId: p-a786c5802de45z19e6dd3eba6z2b76e630000-1
+direction: Outbound
+from: +19513947346
+to: +18338515503
+status: Disconnected
+reason: BlindTransfer
+
+Expected result:
+number2 should now talk with number1.
+
+Saved transfer response:
+E:\Ringcentral\transfer-result.json
+
+Zombie Session Check
+--------------------
+Zombie check was report-only. No delete command was run.
+
+Existing active call records: 1
+Session: s-a786c5802de45z19e6dd3eba6z2b76e630000
+Session age at check: 62 seconds
+
+Session party details:
+
+1. partyId: p-a786c5802de45z19e6dd3eba6z2b76e630000-1
+   direction: Outbound
+   status: Disconnected
+   reason: BlindTransfer
+   from: +19513947346
+   to: +18338515503
+
+2. partyId: p-a786c5802de45z19e6dd3eba6z2b76e630000-2
+   direction: Inbound
+   status: Disconnected
+   reason: None
+   from: +19513947346
+   to: +18338515503
+
+3. partyId: p-a786c5802de45z19e6dd3eba6z2b76e630000-3
+   direction: Inbound
+   status: Disconnected
+   reason: None
+   from: +18338515503
+   to: +19512681518
+
+Zombie check result:
+No active parties found for this session.
+No parties were deleted.
+
+Saved zombie check outputs:
+E:\Ringcentral\active-calls.json
+E:\Ringcentral\zombie-session-check.json
+
+Conclusion
+----------
+The call was created successfully, the blind transfer to number2 succeeded,
+and the follow-up zombie-session check found no active parties requiring cleanup.
+
+Zombie Recheck After 1 Minute
+-----------------------------
+Timestamp: 2026-05-28 17:11:27 +08:00
+Command: python E:\Ringcentral\avoid_zombie_sessions.py
+Mode: report-only; no delete command was run
+
+Getting Alan access token...
+Listing existing active calls first...
+Existing active call records: 0
+- no active telephony sessions reported by active-calls
+No active sessions to inspect or clean up.
+Report-only mode. No parties were deleted.
+Saved active-call list to E:\Ringcentral\active-calls.json

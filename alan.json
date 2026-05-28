@@ -1,0 +1,8 @@
+﻿{
+    "caller":  "+19515822473",
+    "recipient":  "+18338515503",
+    "server":  "https://platform.ringcentral.com",
+    "clientId":  "6o0ncryMQEdf4cGaWwB9uI",
+    "clientSecret":  "1fKiwg8FMfUeTRssA2cXGLZeGiWsuRIcjdTUVttTSc6r",
+    "jwt":  "eyJraWQiOiI4NzYyZjU5OGQwNTk0NGRiODZiZjVjYTk3ODA0NzYwOCIsInR5cCI6IkpXVCIsImFsZyI6IlJTMjU2In0.eyJhdWQiOiJodHRwczovL3BsYXRmb3JtLnJpbmdjZW50cmFsLmNvbS9yZXN0YXBpL29hdXRoL3Rva2VuIiwic3ViIjoiMzI0Mzc3NjAxMSIsImlzcyI6Imh0dHBzOi8vcGxhdGZvcm0ucmluZ2NlbnRyYWwuY29tIiwiZXhwIjozOTI3NDMzODgyLCJpYXQiOjE3Nzk5NTAyMzUsImp0aSI6IjVucWNCcHNyU2dXajdOMkFsVlZ5VWcifQ.YOYCc1RKYUi87CsR1lZddUlUtjRJ56jHUMMCzPzfhRedkdrPxVVHi0bbZIFrhvM6FPKc_KMLuWljwJ1nWCSMY1oiCAx73FeBXB9mVkohrCN126oNTeAIF4c2uAfRWJBKRox9JeNk5KpZIBCh1Rzm1WOcrcQVwI75JTKEmNPLEyR0ruYU2c7CCHi4FAjSYKHwCJ_pU0NA8iL2BXQUVOMO7pWSKifzHZiVyPCpKSYtgPgo9wjhtZWdVxGNHqgkgUUuyX-TIyMRrczM_SyPseUgsa1Xvwu80WskJQXAEtLyEeWJlsOTj-R-IkpUD-E7-RqD6a5HTU1NplNQunf48vv6qw"
+}

@@ -1,0 +1,100 @@
+﻿{
+    "uri":  "https://platform.ringcentral.com/restapi/v1.0/account/3243773011/extension/3243776011/device?page=1\u0026perPage=100",
+    "records":  [
+                    {
+                        "uri":  "https://platform.ringcentral.com/restapi/v1.0/account/3243773011/device/805169921011",
+                        "id":  "805169921011",
+                        "type":  "OtherPhone",
+                        "sku":  "DV-0",
+                        "name":  "Alan",
+                        "status":  "Online",
+                        "extension":  {
+                                          "uri":  "https://platform.ringcentral.com/restapi/v1.0/account/3243773011/extension/3243776011",
+                                          "id":  3243776011,
+                                          "extensionNumber":  "102"
+                                      },
+                        "phoneLines":  [
+                                           {
+                                               "id":  "1484576011",
+                                               "lineType":  "Standalone",
+                                               "emergencyAddress":  {
+                                                                        "required":  true,
+                                                                        "localOnly":  false,
+                                                                        "lineProvisioningStatus":  "Valid"
+                                                                    },
+                                               "phoneInfo":  {
+                                                                 "id":  2482421011,
+                                                                 "phoneNumber":  "+19513947346",
+                                                                 "paymentType":  "Local",
+                                                                 "type":  "VoiceFax",
+                                                                 "usageType":  "DirectNumber",
+                                                                 "country":  {
+                                                                                 "uri":  "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+                                                                                 "id":  "1",
+                                                                                 "name":  "United States"
+                                                                             }
+                                                             }
+                                           }
+                                       ],
+                        "emergency":  {
+                                          "address":  {
+                                                          "street":  "44 W 91ST ST",
+                                                          "city":  "NEW YORK",
+                                                          "state":  "NY",
+                                                          "stateId":  "44",
+                                                          "stateIsoCode":  "NY",
+                                                          "stateName":  "New York",
+                                                          "country":  "US",
+                                                          "countryId":  "1",
+                                                          "countryIsoCode":  "US",
+                                                          "countryName":  "United States",
+                                                          "zip":  "10024",
+                                                          "customerName":  "Grace Lee"
+                                                      },
+                                          "location":  {
+                                                           "id":  "90000011",
+                                                           "name":  "Grace Lee",
+                                                           "addressFormatId":  "19",
+                                                           "addressFormatStatus":  "Actual"
+                                                       },
+                                          "outOfCountry":  false,
+                                          "addressStatus":  "Valid",
+                                          "addressEditableStatus":  "MainDevice",
+                                          "visibility":  "Public"
+                                      },
+                        "emergencyServiceAddress":  {
+                                                        "street":  "44 W 91ST ST",
+                                                        "city":  "NEW YORK",
+                                                        "state":  "NY",
+                                                        "stateId":  "44",
+                                                        "stateIsoCode":  "NY",
+                                                        "stateName":  "New York",
+                                                        "country":  "US",
+                                                        "countryId":  "1",
+                                                        "countryIsoCode":  "US",
+                                                        "countryName":  "United States",
+                                                        "zip":  "10024",
+                                                        "customerName":  "Grace Lee",
+                                                        "outOfCountry":  false
+                                                    },
+                        "linePooling":  "Host",
+                        "hotDeskDevice":  false
+                    }
+                ],
+    "paging":  {
+                   "page":  1,
+                   "totalPages":  1,
+                   "perPage":  100,
+                   "totalElements":  1,
+                   "pageStart":  0,
+                   "pageEnd":  0
+               },
+    "navigation":  {
+                       "firstPage":  {
+                                         "uri":  "https://platform.ringcentral.com/restapi/v1.0/account/3243773011/extension/3243776011/device?page=1\u0026perPage=100"
+                                     },
+                       "lastPage":  {
+                                        "uri":  "https://platform.ringcentral.com/restapi/v1.0/account/3243773011/extension/3243776011/device?page=1\u0026perPage=100"
+                                    }
+                   }
+}
