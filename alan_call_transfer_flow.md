@@ -104,7 +104,83 @@ The `partyId` in the URL is Alan's existing call party, not `number2`. The trans
 
 Status: working. RingCentral returns Alan's party as `Disconnected` with reason `BlindTransfer`, which means Alan's leg was transferred away and `number2` should continue with `number1`.
 
-## Step 4: Avoid Zombie Sessions
+## Step 4: Send Context Message Before Transfer
+
+Goal:
+
+```text
+Before transferring to number2, send:
+"Incoming transferred call: customer is angry about this service"
+```
+
+The current implementation attempts to send this as RingCentral SMS:
+
+```http
+POST /restapi/v1.0/account/~/extension/~/sms
+```
+
+Request shape:
+
+```json
+{
+  "from": {
+    "phoneNumber": "+19515822473"
+  },
+  "to": [
+    {
+      "phoneNumber": "+19512681518"
+    }
+  ],
+  "text": "Incoming transferred call: customer is angry about this service"
+}
+```
+
+Current status: blocked by RingCentral account setup.
+
+The test failed with:
+
+```text
+HTTP 403
+FeatureNotAvailable
+MSG-242: The requested feature is not available
+```
+
+Reason:
+
+```text
+Outbound SMS cannot be enabled yet because the RingCentral business certificate / business verification documentation has not been updated or approved.
+```
+
+What must be enabled:
+
+```text
+1. Alan's extension/account must be allowed to send outbound SMS.
+2. Alan's sending number must be SMS-capable.
+3. The RingCentral developer app must include SMS permission.
+4. RingCentral business SMS / registration paperwork must be completed and approved.
+```
+
+Until outbound SMS is enabled, the transfer flow can still perform the call and blind transfer, but the pre-transfer SMS message will fail unless skipped.
+
+Standalone message test:
+
+```powershell
+python E:\Ringcentral\send_transfer_message.py
+```
+
+Call/transfer flow with message attempt enabled:
+
+```powershell
+python E:\Ringcentral\alan_call_transfer.py --wait-seconds 30
+```
+
+Call/transfer flow without message attempt:
+
+```powershell
+python E:\Ringcentral\alan_call_transfer.py --wait-seconds 30 --skip-transfer-message
+```
+
+## Step 5: Avoid Zombie Sessions
 
 Zombie-session cleanup should be conservative:
 
@@ -156,9 +232,13 @@ python E:\Ringcentral\avoid_zombie_sessions.py --drop-active-parties --min-age-s
 
 ## Python Files
 
-`alan_call_transfer.py`: Main Call Control flow. Authenticates as Alan, finds Alan's device, creates the call to default `number1`, waits, transfers Alan's party to default `number2`, and saves call/transfer responses.
+`alan_call_transfer.py`: Main Call Control flow. Authenticates as Alan, finds Alan's device, creates the call to default `number1`, waits, optionally sends the pre-transfer SMS message to `number2`, transfers Alan's party to default `number2`, and saves call/message/transfer responses. Use `--skip-transfer-message` while outbound SMS is unavailable.
+
+`send_transfer_message.py`: Standalone pre-transfer message test. Attempts to send `"Incoming transferred call: customer is angry about this service"` to default `number2` using RingCentral SMS. Currently blocked by `MSG-242 FeatureNotAvailable` until business SMS verification/documents are completed.
 
 `avoid_zombie_sessions.py`: Safety helper for zombie sessions. Lists existing active calls first, reads session party status, and optionally deletes active parties only when they are older than the configured minimum age, default `300` seconds.
+
+`release_window_test.py`: Timing test helper. Creates a call, transfers it, polls active calls every few seconds, and records how long RingCentral keeps the disconnected session visible before it disappears from `active-calls`.
 
 `ringcentral_steps.py`: Earlier helper script. Uses the original `rc-credentials.json` account credentials to list devices and optionally place a RingOut call. It is useful for account-level checks, but the transfer flow should use `alan_call_transfer.py`.
 
@@ -174,6 +254,8 @@ python E:\Ringcentral\avoid_zombie_sessions.py --drop-active-parties --min-age-s
 
 `transfer-result.json`: Latest transfer response. A successful blind transfer usually shows Alan's party as `Disconnected` with reason `BlindTransfer`.
 
+`transfer-message-result.json`: Latest pre-transfer SMS response when message sending succeeds. This file may not exist or may not update while SMS is blocked by RingCentral `MSG-242 FeatureNotAvailable`.
+
 `active-calls.json`: Latest active-calls listing saved by `avoid_zombie_sessions.py` before any cleanup attempt.
 
 `zombie-session-check.json`: Latest detailed telephony session status saved by `avoid_zombie_sessions.py`.
@@ -188,6 +270,14 @@ python E:\Ringcentral\avoid_zombie_sessions.py --drop-active-parties --min-age-s
 
 `ring-out-result.json`: Earlier RingOut result from the original account credential test.
 
+`release-window-call-out-result.json`: Call-out response from the release-window timing test.
+
+`release-window-transfer-result.json`: Transfer response from the release-window timing test.
+
+`release-window-active-calls.json`: Latest active-calls poll output from the release-window timing test.
+
+`release-window-session-check.json`: Latest detailed session poll output from the release-window timing test.
+
 ## Status
 
 The Alan Call Control flow is working with Alan's auth:
@@ -197,3 +287,5 @@ call-out -> 201 response -> extract telephonySessionId and partyId -> wait -> bl
 ```
 
 The zombie-session helper is now set up to list existing active calls before cleanup and delete only sessions older than 5 minutes when explicitly requested.
+
+The pre-transfer SMS message feature has been added in code but is blocked by RingCentral account configuration until outbound SMS is enabled after business certificate / business verification documentation is completed.
