@@ -28,10 +28,12 @@ CREDENTIALS_FILE = BASE_DIR / "alan.json"
 DEVICE_LIST_FILE = BASE_DIR / "device-list.json"
 CALL_OUT_RESULT_FILE = BASE_DIR / "call-out-result.json"
 TRANSFER_RESULT_FILE = BASE_DIR / "transfer-result.json"
+TRANSFER_MESSAGE_RESULT_FILE = BASE_DIR / "transfer-message-result.json"
 
 ALAN_DEVICE_NAME = "Alan"
 DEFAULT_NUMBER1 = "+18338515503"
 DEFAULT_NUMBER2 = "+19512681518"
+DEFAULT_TRANSFER_MESSAGE = "Incoming transferred call: customer is angry about this service"
 
 
 def ensure_credentials_file() -> None:
@@ -254,6 +256,35 @@ def transfer_caller_party(
     return response
 
 
+def send_transfer_message(
+    server: str,
+    access_token: str,
+    from_number: str,
+    number2: str,
+    text: str,
+) -> dict[str, Any]:
+    request_body = json.dumps(
+        {
+            "from": {"phoneNumber": from_number},
+            "to": [{"phoneNumber": number2}],
+            "text": text,
+        }
+    ).encode("utf-8")
+
+    _, response = api_request(
+        "POST",
+        f"{server}/restapi/v1.0/account/~/extension/~/sms",
+        headers={
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        data=request_body,
+    )
+    write_json(TRANSFER_MESSAGE_RESULT_FILE, response)
+    return response
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Call number1 from Alan, then transfer Alan's party to number2."
@@ -271,6 +302,20 @@ def parse_args() -> argparse.Namespace:
         "--confirm-before-transfer",
         action="store_true",
         help="Pause for Enter before transferring to number2",
+    )
+    parser.add_argument(
+        "--transfer-message",
+        default=DEFAULT_TRANSFER_MESSAGE,
+        help="SMS text sent to number2 before transfer",
+    )
+    parser.add_argument(
+        "--skip-transfer-message",
+        action="store_true",
+        help="Do not send the pre-transfer SMS message",
+    )
+    parser.add_argument(
+        "--message-from",
+        help="SMS sender number. Defaults to caller from alan.json.",
     )
     return parser.parse_args()
 
@@ -307,6 +352,21 @@ def main() -> int:
     elif args.wait_seconds > 0:
         print(f"Waiting {args.wait_seconds} seconds before transfer...")
         time.sleep(args.wait_seconds)
+
+    if not args.skip_transfer_message:
+        message_from = args.message_from or str(credentials.get("caller") or "")
+        if not message_from:
+            raise RuntimeError("No SMS sender number found. Set --message-from or caller in alan.json.")
+        print(f"Sending pre-transfer message to number2 {args.number2}...")
+        message_response = send_transfer_message(
+            server,
+            access_token,
+            message_from,
+            args.number2,
+            args.transfer_message,
+        )
+        print(f"Message status: {message_response.get('messageStatus')}")
+        print(f"Saved message response to {TRANSFER_MESSAGE_RESULT_FILE}")
 
     print(f"Transferring Alan's party to number2 {args.number2}...")
     transfer_response = transfer_caller_party(

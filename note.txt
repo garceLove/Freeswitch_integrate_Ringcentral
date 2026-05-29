@@ -1,0 +1,16 @@
+你外呼一个这个号码。ringcentral的另一个号。+1 (951) 268-1518
+现在freeswitch(18.143.52.32)是  +1(951) 394-7346 
+
+sip.ringcentral.com (199.255.120.146)   sip71.ringcentral.com（104.245.57.29
+
+udp 5080 tls5081 rtp 16384-32768
+
+媒体ip:
+66.81.248.119
+
+grace.lee@dyna.ai
+Goodluck01!
+910304
+
+
+amazon connect: +18667764139
